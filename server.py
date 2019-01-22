@@ -21,7 +21,7 @@ def start_here():
     return """
         <!doctype html>
         <html>Hi! This is the home page.
-        <a href= http://localhost:5000/hello>/hello</a></html>
+        <a href= "/hello">hello</a></html>
         """
 
 
@@ -37,7 +37,7 @@ def say_hello():
       </head>
       <body>
         <h1>Hi There!</h1>
-        <form action="/greet">
+        <form action="/greet" method='GET'>
           What's your name? <input type="text" name="person">
           <input type="radio" name="compliment" value="awesome">Awesome
             <input type="radio" name="compliment" value="terrific">Terrific
@@ -47,14 +47,48 @@ def say_hello():
 
           <input type="submit" value="Submit">  
         </form>
+        <form action ="/diss" method="GET">
+            Who needs a warning?<input type="text" name="person">
+            Select a diss:
+            <select name="diss_list">
+                <option value= "smelly">Smelly</option>
+                <option value= "mean">Mean</option>
+                <option value= "selfish">Selfish</option>
+                <option value= "rude">Rude</option>
+            </select>
+            <input type="submit" value="Submit">
+
+        </form>
        
 
       </body>
     </html>
     """
 
+@app.route("/diss",methods=['GET'])
+def diss_person():
 
-@app.route("/greet")
+    diss = request.args.get("diss_list")
+
+    player = request.args.get("person")
+
+    return """
+     <!doctype html>
+    <html>
+      <head>
+        <title>A Warning</title>
+      </head>
+      <body>
+        Hi, {}! Don't be {}!
+      </body>
+    </html>
+    """.format(player, diss)
+
+
+
+
+
+@app.route("/greet",methods=['GET'])
 def greet_person():
     """Get user by name."""
 
